@@ -23,9 +23,13 @@ def _check_children(f):
     """
     @functools.wraps(f)
     def wrapper(self, item, parents):
-        yield from f(self, item, parents)
+        for v in f(self, item, parents):
+            yield v
+
         for child in item.children:
-            yield from self.check(child, parents + [item])
+            for v in self.check(child, parents + [item]):
+                yield v
+
     return wrapper
 
 
@@ -81,7 +85,7 @@ class LuceneCheck:
             yield "Invalid characters in term value: %s" % item.value
 
     def check_fuzzy(self, item, parents):
-        if sign(item.degree) < 0:
+        if sign(float(item.degree)) < 0:
             yield "invalid degree %d, it must be positive" % item.degree
         if not isinstance(item.term, tree.Word):
             yield "Fuzzy should be on a single term in %s" % str(item)
@@ -122,7 +126,8 @@ class LuceneCheck:
         for cls in item.__class__.mro():
             meth = getattr(self, "check_" + camel_to_lower(cls.__name__), None)
             if meth is not None:
-                yield from meth(item, parents)
+                for v in meth(item, parents):
+                    yield v
                 break
         else:
             yield "Unknown item type %s : %s" % (item.__class__.__name__, str(item))

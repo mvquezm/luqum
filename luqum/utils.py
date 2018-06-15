@@ -60,9 +60,11 @@ class LuceneTreeVisitor:
         """ Basic, recursive traversal of the tree. """
         parents = parents or []
         method = self._get_method(node)
-        yield from method(node, parents)
+        for v in method(node, parents):
+            yield v
         for child in node.children:
-            yield from self.visit(child, parents + [node])
+            for v in self.visit(child, parents + [node]):
+                yield v
 
     def generic_visit(self, node, parents=None):
         """

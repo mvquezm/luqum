@@ -737,7 +737,7 @@ class TreeTransformerTestCase(TestCase):
         """Dummy operation having list operands instead of tuple
         """
         def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+            OrOperation.__init__(self, *args, **kwargs)
             self.operands = list(self.operands)
 
     def test_basic_traversal(self):
@@ -833,7 +833,8 @@ class TreeVisitorV2TestCase(TestCase):
         def generic_visit(self, node, parents, context):
             yield node
             for c in node.children:
-                yield from self.visit(c, parents + [node], context)
+                for v in self.visit(c, parents + [node], context):
+                    yield v
 
     class MROVisitor(LuceneTreeVisitorV2):
 

@@ -47,7 +47,8 @@ class Prettifier(object):
                 # same level, this is just associativity
                 num_children = len(element.children)
                 for n, child in enumerate(element.children):
-                    yield from self._get_chains(child, element)
+                    for v in self._get_chains(child, element):
+                        yield v
                     if n < num_children - 1:
                         if self.inline_ops:
                             yield _STICK_MARKER
@@ -76,7 +77,8 @@ class Prettifier(object):
             # use recursion on sub expression
             yield element.name + ":"
             yield _STICK_MARKER
-            yield from self._get_chains(element.expr, element)
+            for v in self._get_chains(element.expr, element):
+                yield v
         else:
             # simple element
             yield str(element)
