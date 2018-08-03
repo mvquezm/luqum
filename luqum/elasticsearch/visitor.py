@@ -170,7 +170,8 @@ class ElasticsearchQueryBuilder(LuceneTreeVisitorV2):
         """
         for child in children:
             if type(child) is type(current_node):
-                yield from self.simplify_if_same(child.children, current_node)
+                for v in self.simplify_if_same(child.children, current_node):
+                    yield v
             else:
                 yield child
 

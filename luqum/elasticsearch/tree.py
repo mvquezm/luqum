@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import abc
 import re
 
@@ -115,7 +116,7 @@ class EWord(AbstractEItem):
     ADDITIONAL_KEYS_TO_ADD = ('q', )
 
     def __init__(self, q, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        AbstractEItem.__init__(self, *args, **kwargs)
         self.q = q
 
     @property
@@ -123,7 +124,7 @@ class EWord(AbstractEItem):
         # field:* is transformed to exists query
         if self.q == '*':
             return {"exists": {"field": self.field}}
-        return super().json
+        return AbstractEItem.json.fget(self)
 
 
 class EPhrase(AbstractEItem):
@@ -142,7 +143,7 @@ class EPhrase(AbstractEItem):
     _proximity = None
 
     def __init__(self, phrase, *args, **kwargs):
-        super().__init__(method='match_phrase', *args, **kwargs)
+        AbstractEItem.__init__(self, method='match_phrase', *args, **kwargs)
         phrase = self._replace_CR_and_LF_by_a_whitespace(phrase)
         self.q = self._remove_double_quotes(phrase)
 
@@ -182,7 +183,7 @@ class ERange(AbstractEItem):
     """
 
     def __init__(self, lt=None, lte=None, gt=None, gte=None, *args, **kwargs):
-        super().__init__(method='range', *args, **kwargs)
+        AbstractEItem.__init__(self, method='range', *args, **kwargs)
         if lt and lt != '*':
             self.lt = lt
             self.ADDITIONAL_KEYS_TO_ADD += ('lt', )
@@ -310,7 +311,7 @@ class EShould(EOperation):
 class AbstractEMustOperation(EOperation):
 
     def __init__(self, items):
-        op = super().__init__(items)
+        op = EOperation.__init__(self, items)
         for item in self.items:
             item.zero_terms_query = self.zero_terms_query
         return op

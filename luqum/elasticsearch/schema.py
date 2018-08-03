@@ -29,7 +29,8 @@ class SchemaAnalyzer:
             yield fname, fdef, parents
             inner_properties = fdef.get("properties", {})
             if inner_properties:
-                yield from self._walk_properties(inner_properties, parents + [(fname, fdef)])
+                for v in self._walk_properties(inner_properties, parents + [(fname, fdef)]):
+                    yield v
 
     def iter_fields(self):
         for name, mapping in self.mappings.items():

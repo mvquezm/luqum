@@ -49,7 +49,7 @@ class TreeAutoNamer(LuceneTreeVisitorV2):
         # just initialise context
         if context is None:
             context = {"names": ["0"]}
-        return super().visit(node, parents, context=context)
+        return LuceneTreeVisitorV2.visit(self, node, parents, context=context)
 
 
 def auto_name(tree):
@@ -98,7 +98,8 @@ class NameIndexer(LuceneTreeVisitorV2):
 def _flatten_name_index(subnodes_pos, start_pos=0):
     for name, pos, length, children in subnodes_pos:
         yield name, start_pos + pos, length
-        yield from _flatten_name_index(children, start_pos + pos)
+        for v in _flatten_name_index(children, start_pos + pos):
+            yield v
 
 
 def name_index(tree):
