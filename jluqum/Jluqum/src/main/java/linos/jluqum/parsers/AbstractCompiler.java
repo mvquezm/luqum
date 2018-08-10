@@ -6,11 +6,13 @@ import org.antlr.runtime.tree.CommonTree;
  * Created by jorge.hernandez on 09/08/2018.
  */
 public abstract class AbstractCompiler  {
+
     public AbstractCompiler() {
         super();
     }
 
-    public abstract CommonTree compile(String expression);
+    public abstract void compile(String expression);
+
 
     protected void printTree(CommonTree ast) {
         print(ast, 0);
