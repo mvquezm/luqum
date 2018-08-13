@@ -1,5 +1,7 @@
 package linos.jluqum.parsers;
 
+import linos.jluqum.transformer.IntentQueryParserTransformer;
+import linos.jluqum.transformer.Model;
 import linos.jluqum.tree.TreeWalk;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
@@ -79,10 +81,13 @@ public class LuceneCompiler extends AbstractCompiler {
 
     }
 
-    public String TransformQuery(CommonTree tree,HashMap<String, String> transform){
+    public String TransformQuery(CommonTree tree,Model model){
 
-        TreeWalk walk = new TreeWalk(transform);
-        walk.Walk(tree);
+        TreeWalk walkObservable = new TreeWalk();
+        IntentQueryParserTransformer queryParserObserver = new IntentQueryParserTransformer();
+        queryParserObserver.setModel(model);
+        walkObservable.addObserver(queryParserObserver);
+        walkObservable.walk(tree);
 
       return this.tokens.toString(); // emit tweaked token buffer
     }
