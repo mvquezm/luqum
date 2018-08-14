@@ -1,8 +1,8 @@
 package linos.jluqum.parsers;
 
 import linos.jluqum.observerInterface.TreeObserver;
-import linos.jluqum.transformer.Model;
 import linos.jluqum.tree.TreeWalk;
+
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.runtime.tree.CommonTree;
@@ -60,16 +60,10 @@ public class LuceneCompiler extends AbstractCompiler {
 
             }
 
-
-
             CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
             nodes.setTokenStream(tokens);
 
-           
-
-
             return ast;
-
 
         } catch (RecognitionException e) {
             throw new IllegalStateException("Recognition exception is never thrown, only declared.");
@@ -85,13 +79,12 @@ public class LuceneCompiler extends AbstractCompiler {
         this.treeObserver = treeObserver;
     }
 
-    public String TransformQuery(CommonTree tree,TreeObserver treeObserver){
-        this.setTreeObserver( treeObserver);
+    public String TransformQuery(CommonTree tree,TreeObserver treeObserver) {
+        this.setTreeObserver(treeObserver);
         TreeWalk walkObservable = new TreeWalk();
         walkObservable.addObserver(getTreeObserver());
         walkObservable.walk(tree);
 
-      return this.tokens.toString();
+        return this.tokens.toString();
     }
-
 }

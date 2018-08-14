@@ -1,8 +1,8 @@
 package linos.jluqum.observerInterface;
 
 import linos.jluqum.transformer.Model;
-import org.antlr.runtime.Token;
 
+import org.antlr.runtime.Token;
 import java.util.Observer;
 
 

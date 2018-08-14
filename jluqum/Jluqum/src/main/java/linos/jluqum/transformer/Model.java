@@ -2,7 +2,6 @@ package linos.jluqum.transformer;
 
 import org.javatuples.Pair;
 
-
 import java.util.List;
 
 

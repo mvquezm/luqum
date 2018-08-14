@@ -30,9 +30,10 @@ public abstract class AbstractCompiler  {
         System.out.println(" " + tree.getType() + " " + tree.getText());
 
 
-        if (tree.getChildren() != null)
+        if (tree.getChildren() != null) {
             for (Object ie : tree.getChildren()) {
                 print((CommonTree) ie, level + 1);
             }
+        }
     }
 }
