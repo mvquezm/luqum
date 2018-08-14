@@ -14,6 +14,7 @@ public class TreeWalk extends Observable {
     private Token node;
 
     void walkAndTransform(CommonTree node) {
+
         switch (node.getType()) {
             case 22:
 

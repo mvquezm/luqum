@@ -1,12 +1,12 @@
 package linos.jluqum.parsers;
 
+import linos.jluqum.transformer.IntentQueryParserTransformer;
 import linos.jluqum.transformer.Model;
 import org.javatuples.Pair;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class LuceneCompilerTest {
@@ -27,11 +27,14 @@ public class LuceneCompilerTest {
 
         Model<String,Double> fakeModel = new Model<String,Double>();
         fakeModel.setMostSimilar(tuples);
+        IntentQueryParserTransformer iqp = new IntentQueryParserTransformer();
+        iqp.setModel(fakeModel);
+
 
         for (String query : queries) {
             System.out.println(String.format("Original Query: %s", query));
             compiler.compile(query);
-            System.out.println(String.format("Transform Query: %s", compiler.TransformQuery(compiler.TreeForContex('Q'), fakeModel)));
+            System.out.println(String.format("Transform Query: %s", compiler.TransformQuery(compiler.TreeForContex('Q'),iqp)));
         }
     }
 }

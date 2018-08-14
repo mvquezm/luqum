@@ -1,18 +1,15 @@
 package linos.jluqum.transformer;
 
-import linos.jluqum.tree.TreeWalk;
+import linos.jluqum.observerInterface.TreeObserver;
 import org.antlr.runtime.Token;
-import org.antlr.runtime.tree.CommonTree;
 import org.javatuples.Pair;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.*;
 
-/**
- * Created by jorge.hernandez on 13/08/2018.
- */
-public class IntentQueryParserTransformer implements Observer {
+
+public class IntentQueryParserTransformer implements TreeObserver {
 
     private Model model;
     private Token token;

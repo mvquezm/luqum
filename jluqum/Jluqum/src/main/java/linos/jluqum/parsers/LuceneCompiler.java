@@ -1,30 +1,25 @@
 package linos.jluqum.parsers;
 
-import linos.jluqum.transformer.IntentQueryParserTransformer;
+import linos.jluqum.observerInterface.TreeObserver;
 import linos.jluqum.transformer.Model;
 import linos.jluqum.tree.TreeWalk;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.runtime.tree.CommonTree;
 
-import java.util.HashMap;
 
-/**
- * Created by jorge.hernandez on 09/08/2018.
- */
 public class LuceneCompiler extends AbstractCompiler {
 
     private TokenRewriteStream tokens;
     private LuceneGrammarParser parser;
 
+    private TreeObserver treeObserver;
+
     public void compile(String expression) {
         try {
-            //lexer splits input into tokens
-            ANTLRStringStream input = new ANTLRStringStream(expression);
-            //Token Rewrite for edit
-            this.tokens = new TokenRewriteStream(new LuceneGrammarLexer(input));
 
-            //parser generates abstract syntax tree
+            ANTLRStringStream input = new ANTLRStringStream(expression);
+            this.tokens = new TokenRewriteStream(new LuceneGrammarLexer(input));
             this.parser = new LuceneGrammarParser(tokens);
 
 
@@ -66,11 +61,12 @@ public class LuceneCompiler extends AbstractCompiler {
             }
 
 
-            // create a stream of tree nodes from AST built by parser
+
             CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
             nodes.setTokenStream(tokens);
 
-           // printTree(ast);
+           
+
 
             return ast;
 
@@ -81,15 +77,21 @@ public class LuceneCompiler extends AbstractCompiler {
 
     }
 
-    public String TransformQuery(CommonTree tree,Model model){
+    public TreeObserver getTreeObserver() {
+        return treeObserver;
+    }
 
+    public void setTreeObserver(TreeObserver treeObserver) {
+        this.treeObserver = treeObserver;
+    }
+
+    public String TransformQuery(CommonTree tree,TreeObserver treeObserver){
+        this.setTreeObserver( treeObserver);
         TreeWalk walkObservable = new TreeWalk();
-        IntentQueryParserTransformer queryParserObserver = new IntentQueryParserTransformer();
-        queryParserObserver.setModel(model);
-        walkObservable.addObserver(queryParserObserver);
+        walkObservable.addObserver(getTreeObserver());
         walkObservable.walk(tree);
 
-      return this.tokens.toString(); // emit tweaked token buffer
+      return this.tokens.toString();
     }
 
 }

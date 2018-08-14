@@ -2,9 +2,7 @@ package linos.jluqum.parsers;
 
 import org.antlr.runtime.tree.CommonTree;
 
-/**
- * Created by jorge.hernandez on 09/08/2018.
- */
+
 public abstract class AbstractCompiler  {
 
     public AbstractCompiler() {
@@ -19,7 +17,7 @@ public abstract class AbstractCompiler  {
     }
 
     private void print(CommonTree tree, int level) {
-        //indent level
+
         for (int i = 0; i < level; i++)
             System.out.print("--");
 
@@ -28,10 +26,10 @@ public abstract class AbstractCompiler  {
             return ;
         }
 
-        //print node description: type code followed by token text
+
         System.out.println(" " + tree.getType() + " " + tree.getText());
 
-        //print all children
+
         if (tree.getChildren() != null)
             for (Object ie : tree.getChildren()) {
                 print((CommonTree) ie, level + 1);
