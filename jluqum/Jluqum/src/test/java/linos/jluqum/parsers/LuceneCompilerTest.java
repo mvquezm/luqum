@@ -20,21 +20,20 @@ public class LuceneCompilerTest {
                 "field1:(+term1 -term2) OR ((term3 OR term4) NOT field1:(\"phrase one\" OR +term3))"
         );
 
+
         List<Pair<String, Double>> tuples = new ArrayList<Pair<String, Double>>();
         tuples.add(new Pair<String, Double>("porsche", 0.9232932932));
         tuples.add(new Pair<String, Double>("porsche_carrera", 0.88882323));
 
-        Model<String,Double> fakeModel = new Model<String,Double>();
-        fakeModel.setMostSimilar(tuples);
-        IntentQueryParserTransformer iqp = new IntentQueryParserTransformer();
-        iqp.setModel(fakeModel);
+        IntentQueryParserTransformer iqp = new IntentQueryParserTransformer(new Model<String,Double>(tuples));
+
 
         for (String query : queries) {
             System.out.println(String.format("Original Query: %s", query));
             compiler.compile(query);
             //compiler.printTree(compiler.TreeForContex('Q'));
             System.out.println(String.format("Transform Query: %s \n",
-                    compiler.TransformQuery(compiler.TreeForContex('Q'),iqp)));
+                    compiler.TransformQuery(compiler.TreeForContex("Query"),iqp)));
         }
     }
 }

@@ -16,6 +16,10 @@ public class IntentQueryParserTransformer implements TreeObserver {
 
     public IntentQueryParserTransformer() {}
 
+    public  IntentQueryParserTransformer(Model model) {
+        this.model = model;
+    }
+
     public Model getModel() {
         return model;
     }
@@ -32,12 +36,8 @@ public class IntentQueryParserTransformer implements TreeObserver {
         this.token = token;
     }
 
-    public void update(Observable o, Object arg) {
-        this.setToken((Token) arg);
-        transformTest();
-    }
 
-    public void transformTest() {
+    public void transform (){
         double confidence = 0.1;
         DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator('.');

@@ -2,6 +2,7 @@ package linos.jluqum.tree;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
+
 import java.util.Observable;
 
 
@@ -10,16 +11,16 @@ public class TreeWalk extends Observable {
     private Token node;
 
     void walkAndTransform(CommonTree node) {
-        switch (node.getType()) {
-            case 22:
-                if (node.getParent().getType() == 12) { // 12 - QNORMAL
-                    setToken(node.getToken());
-                }
+        switch (node.getText()) {
+            case "QNORMAL":
+
+                setToken(((CommonTree) node.getChild(0)).getToken());
+
                 break;
-            case 34:
-                if (node.getParent().getType() == 13) { // 13 - QPHRASE
-                    setToken(node.getToken());
-                }
+            case "QPHRASE":
+
+                setToken(((CommonTree) node.getChild(0)).getToken());
+
                 break;
         }
     }

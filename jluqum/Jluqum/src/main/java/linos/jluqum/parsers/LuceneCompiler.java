@@ -29,27 +29,27 @@ public class LuceneCompiler extends AbstractCompiler {
 
     }
 
-    public CommonTree TreeForContex(char contex) {
+    public CommonTree TreeForContex(String contex) {
         try {
             CommonTree ast = null;
             switch (contex) {
-                case 'Q':
+                case "Query":
 
                     ast = (CommonTree) this.parser.mainQ().getTree();
 
                     break;
-                case 'O':
+                case "Or":
 
                     ast = (CommonTree) this.parser.clauseOr().getTree();
 
                     break;
 
-                case 'A':
+                case "And":
 
                     ast = (CommonTree) this.parser.clauseAnd().getTree();
 
                     break;
-                case 'N':
+                case "Not":
 
                     ast = (CommonTree) this.parser.clauseNot().getTree();
 
@@ -79,7 +79,7 @@ public class LuceneCompiler extends AbstractCompiler {
         this.treeObserver = treeObserver;
     }
 
-    public String TransformQuery(CommonTree tree,TreeObserver treeObserver) {
+    public String TransformQuery(CommonTree tree, TreeObserver treeObserver) {
         this.setTreeObserver(treeObserver);
         TreeWalk walkObservable = new TreeWalk();
         walkObservable.addObserver(getTreeObserver());
